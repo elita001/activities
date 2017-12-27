@@ -1,2 +1,0 @@
-# activities
-Calendar of activities
