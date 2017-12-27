@@ -1,0 +1,40 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        our_db_provider:
+            entity:
+                class: AppBundle\Entity\User
+                property: email
+                # if you're using multiple entity managers
+                # manager_name: customer
+
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            # activate different ways to authenticate
+            provider: our_db_provider
+            form_login:
+                login_path: login
+                check_path: login
+                default_target_path: pages_main
+            logout:
+                path: /logout
+                target: pages_main
+
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            #form_login: ~
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/pages/about, roles: ROLE_ADMIN }
+
+    encoders:
+        AppBundle\Entity\User: bcrypt

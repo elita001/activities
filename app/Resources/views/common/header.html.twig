@@ -1,0 +1,23 @@
+<ul class="main-menu">
+    <li class="main-menu-item">
+        <a href="{{ path('pages_main') }}">Главная</a>
+    </li>
+    {% if is_granted('ROLE_ADMIN') or not is_granted('IS_AUTHENTICATED_FULLY') %}
+    <li class="main-menu-item">
+        <a href="{{ path('pages_about') }}">О нас</a>
+    </li>
+    {% endif %}
+    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+    <li class="main-menu-item">
+        <a href="{{ path('login') }}">Войти</a>
+    </li>
+    <li class="main-menu-item">
+        <a href="{{ path('user_registration') }}">Регистрация</a>
+    </li>
+    {% endif %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <li class="main-menu-item">
+        <a href="{{ path('logout') }}">Выход</a>
+    </li>
+    {% endif %}
+</ul>

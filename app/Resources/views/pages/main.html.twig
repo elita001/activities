@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'common/header.html.twig' %}
+    <div class="content">{{ text }}</div>
+    {% include 'common/footer.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+    {% include 'common/css.html.twig' %}
+{% endblock %}

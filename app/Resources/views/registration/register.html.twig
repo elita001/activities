@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'common/header.html.twig' %}
+    <div class="content">
+        {{ form_start(form) }}
+        <div>
+        {{ form_row(form.email) }}
+        </div>
+        <div>
+        {{ form_row(form.plainPassword.first) }}
+        </div>
+        <div>
+        {{ form_row(form.plainPassword.second) }}
+        </div>
+        <div>
+            {{ form_row(form.role) }}
+        </div>
+
+        <button type="submit">Зарегистрироваться!</button>
+        {{ form_end(form) }}
+    </div>
+    {% include 'common/footer.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+    {% include 'common/css.html.twig' %}
+{% endblock %}
