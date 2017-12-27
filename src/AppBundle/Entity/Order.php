@@ -49,6 +49,10 @@ class Order
      */
     private $phone;
 
+    /**
+     * @ORM\OneToMany(targetEntity="UserOrder", mappedBy="order")
+     */
+    private $userOrders;
 
     /**
      * Get id
@@ -155,5 +159,45 @@ class Order
     {
         return $this->phone;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->userOrders = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add userOrder
+     *
+     * @param \AppBundle\Entity\UserOrder $userOrder
+     *
+     * @return Order
+     */
+    public function addUserOrder(\AppBundle\Entity\UserOrder $userOrder)
+    {
+        $this->userOrders[] = $userOrder;
+
+        return $this;
+    }
+
+    /**
+     * Remove userOrder
+     *
+     * @param \AppBundle\Entity\UserOrder $userOrder
+     */
+    public function removeUserOrder(\AppBundle\Entity\UserOrder $userOrder)
+    {
+        $this->userOrders->removeElement($userOrder);
+    }
+
+    /**
+     * Get userOrders
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserOrders()
+    {
+        return $this->userOrders;
+    }
+}
