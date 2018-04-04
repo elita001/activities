@@ -30,7 +30,7 @@ class OrderController extends Controller
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
 
-            return $this->redirectToRoute('pages_main');
+            return $this->redirectToRoute('orders_list');
         }
 
         return $this->render(

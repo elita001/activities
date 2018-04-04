@@ -3,18 +3,7 @@
 {% block body %}
     {% include 'common/header.html.twig' %}
     <div class="content">
-        {{ form_start(form) }}
-        <div>
-        {{ form_row(form.name) }}
-        </div>
-        <div>
-        {{ form_row(form.content) }}
-        </div>
-        <div>
-        {{ form_row(form.phone) }}
-        </div>
-        <button type="submit">Добавить мероприятие!</button>
-        {{ form_end(form) }}
+        {{  form(form) }}
     </div>
     {% include 'common/footer.html.twig' %}
 {% endblock %}

@@ -3,11 +3,12 @@
 {% block body %}
     {% include 'common/header.html.twig' %}
     <div class="content">
+        <h1 class="content-header">Список мероприятий</h1>
         <table>
             <tr>
-               <th>Name</th>
-               <th>Content</th>
-               <th>Phone</th>
+               <th>Название</th>
+               <th>Описание</th>
+               <th>Телефон</th>
             </tr>
         {% for item in orders %}
             <tr>
