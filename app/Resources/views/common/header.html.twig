@@ -17,6 +17,12 @@
     {% endif %}
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
     <li class="main-menu-item">
+        <a href="{{ path('order_create') }}">Добавить мероприятие</a>
+    </li>
+    <li class="main-menu-item">
+        <a href="{{ path('orders_list') }}">Мероприятия</a>
+    </li>
+    <li class="main-menu-item">
         <a href="{{ path('logout') }}">Выход</a>
     </li>
     {% endif %}

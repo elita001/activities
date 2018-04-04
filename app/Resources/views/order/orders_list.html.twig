@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'common/header.html.twig' %}
+    <div class="content">
+        <table>
+            <tr>
+               <th>Name</th>
+               <th>Content</th>
+               <th>Phone</th>
+            </tr>
+        {% for item in orders %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.content }}</td>
+                <td>{{ item.phone }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    {% include 'common/footer.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+    {% include 'common/css.html.twig' %}
+{% endblock %}
