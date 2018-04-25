@@ -1,14 +1,14 @@
 <div class="footer">
     <div class="footer-links">
-        <a class="footer-link" href="{{ path('pages_main') }}">Главная</a>
+        <a class="footer-link" href="{{ path('main') }}">Главная</a>
         {% if is_granted('ROLE_ADMIN') or not is_granted('IS_AUTHENTICATED_FULLY') %}
-        <a class="footer-link" href="{{ path('pages_about') }}">О нас</a>
+        <a class="footer-link" href="{{ path('about') }}">О нас</a>
         {% endif %}
     </div>
     <div class="footer-links">
-        <a class="footer-link" href="{{ path('pages_main') }}">Главная 2</a>
+        <a class="footer-link" href="{{ path('main') }}">Главная 2</a>
         {% if is_granted('ROLE_ADMIN') or not is_granted('IS_AUTHENTICATED_FULLY') %}
-        <a class="footer-link" href="{{ path('pages_about') }}">О нас 2</a>
+        <a class="footer-link" href="{{ path('about') }}">О нас 2</a>
         {% endif %}
     </div>
 </div>
