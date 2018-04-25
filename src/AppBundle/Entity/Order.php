@@ -55,6 +55,12 @@ class Order
     private $userOrders;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="orders")
+     * @ORM\JoinColumn(name="creator_id", referencedColumnName="id")
+     */
+    private $creator;
+
+    /**
      * Get id
      *
      * @return int
@@ -199,5 +205,29 @@ class Order
     public function getUserOrders()
     {
         return $this->userOrders;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $creator
+     *
+     * @return Order
+     */
+    public function setCreator(User $creator = null)
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getCreator()
+    {
+        return $this->creator;
     }
 }

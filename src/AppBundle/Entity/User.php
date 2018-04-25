@@ -1,5 +1,7 @@
 <?php
 namespace AppBundle\Entity;
+use AppBundle\Form\OrderType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -89,9 +91,16 @@ class User implements UserInterface, \Serializable
      */
     private $userOrders;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Order", mappedBy="creator")
+     */
+    private $orders;
+
     public function __construct()
     {
         $this->isActive = true;
+        $this->userOrders = new ArrayCollection();
+        $this->orders = new ArrayCollection();
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
     }
@@ -391,5 +400,39 @@ class User implements UserInterface, \Serializable
     public function getUserOrders()
     {
         return $this->userOrders;
+    }
+
+    /**
+     * Add order
+     *
+     * @param Order $order
+     *
+     * @return User
+     */
+    public function addOrder(Order $order)
+    {
+        $this->orders[] = $order;
+
+        return $this;
+    }
+
+    /**
+     * Remove order
+     *
+     * @param Order $order
+     */
+    public function removeOrder(Order $order)
+    {
+        $this->orders->removeElement($order);
+    }
+
+    /**
+     * Get orders
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOrders()
+    {
+        return $this->orders;
     }
 }

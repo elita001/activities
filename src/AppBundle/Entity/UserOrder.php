@@ -28,11 +28,8 @@ class UserOrder
     private $order;
 
     /**
-     * @var int
-     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="userOrders")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     *
      */
     private $user;
 
@@ -45,54 +42,6 @@ class UserOrder
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set orderId
-     *
-     * @param integer $orderId
-     *
-     * @return UserOrder
-     */
-    public function setOrderId($orderId)
-    {
-        $this->orderId = $orderId;
-
-        return $this;
-    }
-
-    /**
-     * Get orderId
-     *
-     * @return int
-     */
-    public function getOrderId()
-    {
-        return $this->orderId;
-    }
-
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     *
-     * @return UserOrder
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Get userId
-     *
-     * @return int
-     */
-    public function getUserId()
-    {
-        return $this->userId;
     }
 
     /**
