@@ -15,11 +15,22 @@ class UserController extends Controller
     /**
      * @Route("/user", name="user")
      */
-    public function indexAction()
+    public function indexAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+        $user = $this->getUser();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
+
         return $this->render(
             'user/index.html.twig',
-            array('user' => $this->getUser())
+            array('user' => $user, 'form' => $form->createView())
         );
     }
 }
