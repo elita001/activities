@@ -42,12 +42,26 @@ class OrderController extends Controller
     }
 
     /**
-     * @Route("/orders", name="orders_list")
+     * @Route("/orders/{type}", name="orders_list")
      */
-    public function ordersAction()
+    public function ordersAction($type = null)
     {
-        $orderRep = $this->getDoctrine()->getRepository(Order::class);
-        $orders = $orderRep->findAll();
+        switch ($type) {
+            case 'participate':
+                $userOrderRep = $this->getDoctrine()->getRepository(UserOrder::class);
+                $userOrders = $userOrderRep->findBy(
+                    array('user' => $this->getUser())
+                );
+                $orders = array();
+                /** @var UserOrder $order */
+                foreach ($userOrders as $order) {
+                    $orders[] = $order->getOrder();
+                }
+                break;
+            default:
+                $orderRep = $this->getDoctrine()->getRepository(Order::class);
+                $orders = $orderRep->findAll();
+        }
         return $this->render('order/orders_list.html.twig', array(
             'orders' => $orders,
         ));

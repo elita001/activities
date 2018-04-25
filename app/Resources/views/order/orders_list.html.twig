@@ -24,6 +24,11 @@
             </tr>
         {% endfor %}
         </table>
+        <form action="{{ path('order_create') }}">
+            <p>
+                <input type="submit" value="Добавить мероприятие">
+            </p>
+        </form>
     </div>
     {% include 'common/footer.html.twig' %}
 {% endblock %}
