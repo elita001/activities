@@ -2,6 +2,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Order;
+use AppBundle\Entity\UserOrder;
 use AppBundle\Form\OrderType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,6 +23,7 @@ class OrderController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $order->setCreator($this->getUser());
             // 4) save the Order!
             $em = $this->getDoctrine()->getManager();
             $em->persist($order);
@@ -49,5 +51,23 @@ class OrderController extends Controller
         return $this->render('order/orders_list.html.twig', array(
             'orders' => $orders,
         ));
+    }
+
+    /**
+     * @Route("/order/participate/{id}", name="order_participate")
+     */
+    public function orderParticipateAction($id)
+    {
+        $orderRep = $this->getDoctrine()->getRepository(Order::class);
+        /** @var Order $order */
+        $order = $orderRep->find($id);
+        $user = $this->getUser();
+        $userOrder = new UserOrder();
+        $userOrder->setOrder($order);
+        $userOrder->setUser($user);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($userOrder);
+        $em->flush();
+        return $this->redirectToRoute('orders_list');
     }
 }

@@ -9,12 +9,18 @@
                <th>Название</th>
                <th>Описание</th>
                <th>Телефон</th>
+               <th></th>
             </tr>
         {% for item in orders %}
             <tr>
                 <td>{{ item.name }}</td>
                 <td>{{ item.content }}</td>
                 <td>{{ item.phone }}</td>
+                <td>
+                    <form action="{{  path('order_participate', { 'id': item.id }) }}" method="post">
+                        <input type="submit" value="Пойти">
+                    </form>
+                </td>
             </tr>
         {% endfor %}
         </table>
