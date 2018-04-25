@@ -5,6 +5,8 @@ namespace AppBundle\Form;
 use AppBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -22,6 +24,9 @@ class UserType extends AbstractType
                 'first_options'  => array('label' => 'Пароль'),
                 'second_options' => array('label' => 'Повторите пароль'),
             ))
+            ->add('firstname', TextType::class, array('label' => 'Имя'))
+            ->add('lastname', TextType::class, array('label' => 'Фамилия'))
+            ->add('phone', NumberType::class, array('label' => 'Телефон'))
             ->add('role', ChoiceType::class, array(
                 'choices' => array(
                     'Администратор' => 'ROLE_ADMIN',
