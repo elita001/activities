@@ -34,9 +34,9 @@ security:
             #form_login: ~
     access_control:
         # require ROLE_ADMIN for /admin*
-        - { path: ^/pages/about, roles: ROLE_ADMIN }
-        - { path: ^/order, roles: ROLE_USER }
-        - { path: ^/orders, roles: ROLE_USER }
+#        - { path: ^/pages/about, roles: ROLE_ADMIN }
+#        - { path: ^/order, roles: ROLE_USER }
+#        - { path: ^/orders, roles: ROLE_USER }
 
     encoders:
         AppBundle\Entity\User: bcrypt
