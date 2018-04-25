@@ -46,6 +46,7 @@ class OrderController extends Controller
      */
     public function ordersAction($type = null)
     {
+        $acceptable = false;
         switch ($type) {
             case 'participate':
                 $userOrderRep = $this->getDoctrine()->getRepository(UserOrder::class);
@@ -58,12 +59,17 @@ class OrderController extends Controller
                     $orders[] = $order->getOrder();
                 }
                 break;
+            case 'created':
+                $orders = $this->getUser()->getOrders();
+                break;
             default:
+                $acceptable = true;
                 $orderRep = $this->getDoctrine()->getRepository(Order::class);
                 $orders = $orderRep->findAll();
         }
         return $this->render('order/orders_list.html.twig', array(
             'orders' => $orders,
+            'acceptable' => $acceptable
         ));
     }
 
@@ -82,6 +88,6 @@ class OrderController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->persist($userOrder);
         $em->flush();
-        return $this->redirectToRoute('orders_list');
+        return $this->redirectToRoute('orders_list', array('type' => 'participate'));
     }
 }
