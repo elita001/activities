@@ -47,8 +47,10 @@ class OrderController extends Controller
     public function ordersAction($type = null)
     {
         $acceptable = false;
+        $header = 'Список мероприятий';
         switch ($type) {
             case 'participate':
+                $header = 'Мероприятия, в которых я участвую';
                 $userOrderRep = $this->getDoctrine()->getRepository(UserOrder::class);
                 $userOrders = $userOrderRep->findBy(
                     array('user' => $this->getUser())
@@ -60,6 +62,7 @@ class OrderController extends Controller
                 }
                 break;
             case 'created':
+                $header = 'Созданные мной мероприятия';
                 $orders = $this->getUser()->getOrders();
                 break;
             default:
@@ -69,7 +72,8 @@ class OrderController extends Controller
         }
         return $this->render('order/orders_list.html.twig', array(
             'orders' => $orders,
-            'acceptable' => $acceptable
+            'acceptable' => $acceptable,
+            'header' => $header
         ));
     }
 
