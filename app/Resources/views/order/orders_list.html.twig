@@ -10,6 +10,7 @@
                <th>Описание</th>
                <th>Телефон</th>
                {% if acceptable %}<th></th>{% endif %}
+                <th></th>
             </tr>
         {% for item in orders %}
             <tr>
@@ -23,6 +24,11 @@
                     </form>
                 </td>
                 {% endif %}
+                <td>
+                    <form action="{{  path('order_view', { 'id': item.id }) }}" method="post">
+                        <input type="submit" value="Подробнее">
+                    </form>
+                </td>
             </tr>
         {% endfor %}
         </table>

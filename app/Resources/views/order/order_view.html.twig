@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'common/header.html.twig' %}
+    <div class="content">
+        <h1 class="content-header">{{ order.name }}</h1>
+        <p>Описание: {{ order.content }}</p>
+        <p>Тел.: {{ order.phone }}</p>
+        <form action="{{  path('order_participate', { 'id': order.id }) }}" method="post">
+            <input type="submit" value="Пойти">
+        </form>
+        <form action="{{ path('orders_list') }}">
+            <p>
+                <input type="submit" value="Список мероприятий">
+            </p>
+        </form>
+    </div>
+    {% include 'common/footer.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+    {% include 'common/css.html.twig' %}
+{% endblock %}

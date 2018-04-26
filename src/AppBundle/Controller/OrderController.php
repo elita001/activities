@@ -94,4 +94,17 @@ class OrderController extends Controller
         $em->flush();
         return $this->redirectToRoute('orders_list', array('type' => 'participate'));
     }
+
+    /**
+     * @Route("/order/view/{id}", name="order_view")
+     */
+    public function orderViewAction($id)
+    {
+        $orderRep = $this->getDoctrine()->getRepository(Order::class);
+        /** @var Order $order */
+        $order = $orderRep->find($id);
+        return $this->render('order/order_view.html.twig', array(
+            'order' => $order,
+        ));
+    }
 }
