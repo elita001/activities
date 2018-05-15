@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20171218101955 extends AbstractMigration
+class Version20180515123849 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -18,8 +18,9 @@ class Version20171218101955 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('CREATE SEQUENCE entity_user_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE entity_user (id INT NOT NULL, email VARCHAR(255) NOT NULL, role VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, return VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('ALTER TABLE "order" ADD added_on TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
+        $this->addSql('ALTER TABLE "order" ADD date_start TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
+        $this->addSql('ALTER TABLE "order" ADD date_end TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
     }
 
     /**
@@ -31,7 +32,8 @@ class Version20171218101955 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('DROP SEQUENCE entity_user_id_seq CASCADE');
-        $this->addSql('DROP TABLE entity_user');
+        $this->addSql('ALTER TABLE "order" DROP added_on');
+        $this->addSql('ALTER TABLE "order" DROP date_start');
+        $this->addSql('ALTER TABLE "order" DROP date_end');
     }
 }

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Order
@@ -59,6 +60,22 @@ class Order
      * @ORM\JoinColumn(name="creator_id", referencedColumnName="id")
      */
     private $creator;
+
+    /**
+     * @Assert\DateTime()
+     * @ORM\Column(name="added_on", type="datetime", nullable=true)
+     */
+    private $addedOn;
+    /**
+     * @Assert\DateTime()
+     * @ORM\Column(name="date_start", type="datetime", nullable=true)
+     */
+    private $dateStart;
+    /**
+     * @Assert\DateTime()
+     * @ORM\Column(name="date_end", type="datetime", nullable=true)
+     */
+    private $dateEnd;
 
     /**
      * Get id
@@ -229,5 +246,45 @@ class Order
     public function getCreator()
     {
         return $this->creator;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateStart()
+    {
+        return $this->dateStart;
+    }
+
+    /**
+     * @param mixed $dateStart
+     */
+    public function setDateStart($dateStart)
+    {
+        $this->dateStart = $dateStart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateEnd()
+    {
+        return $this->dateEnd;
+    }
+
+    /**
+     * @param mixed $dateEnd
+     */
+    public function setDateEnd($dateEnd)
+    {
+        $this->dateEnd = $dateEnd;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddedOn()
+    {
+        return $this->addedOn;
     }
 }
