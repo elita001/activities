@@ -6,6 +6,8 @@
         <h1 class="content-header">{{ order.name }}</h1>
         <p>Описание: {{ order.content }}</p>
         <p>Тел.: {{ order.phone }}</p>
+        <p>Начало: {{ item.dateStart is empty ? "" : item.dateStart|date("Y-m-d H:i:s") }}</p>
+        <p>Конец: {{ item.dateEnd is empty ? "" : item.dateEnd|date("Y-m-d H:i:s") }}</p>
         <form action="{{  path('order_participate', { 'id': order.id }) }}" method="post">
             <input type="submit" value="Пойти">
         </form>

@@ -3,6 +3,7 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\Order;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -17,6 +18,8 @@ class OrderType extends AbstractType
             ->add('name', null, array('label' => 'Название'))
             ->add('content', TextareaType::class, array('label' => 'Описание'))
             ->add('phone', IntegerType::class, array('label' => 'Телефон'))
+            ->add('dateStart', DateTimeType::class, array('label' => 'Начинается', 'data' => new \DateTime('now')))
+            ->add('dateEnd', DateTimeType::class, array('label' => 'Заканчивается', 'data' => new \DateTime('now')))
             ->add('submit', SubmitType::class, array('label' => 'Добавить мероприятие!'))
         ;
     }

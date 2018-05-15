@@ -9,6 +9,8 @@
                <th>Название</th>
                <th>Описание</th>
                <th>Телефон</th>
+               <th>Начинается</th>
+               <th>Заканчивается</th>
                {% if acceptable %}<th></th>{% endif %}
                 <th></th>
             </tr>
@@ -17,6 +19,8 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.content }}</td>
                 <td>{{ item.phone }}</td>
+                <td>{{ item.dateStart is empty ? "" : item.dateStart|date("Y-m-d H:i:s") }}</td>
+                <td>{{ item.dateEnd is empty ? "" : item.dateEnd|date("Y-m-d H:i:s") }}</td>
                 {% if acceptable %}
                 <td>
                     <form action="{{  path('order_participate', { 'id': item.id }) }}" method="post">
