@@ -42,12 +42,15 @@ class OrderController extends Controller
     }
 
     /**
-     * @Route("/orders/{type}", name="orders_list")
+     * @Route("/orders", name="orders_list")
      */
-    public function ordersAction($type = null)
+    public function ordersAction(Request $request = null)
     {
         $acceptable = false;
         $header = 'Список мероприятий';
+        $type = $request->query->get('type');
+        $rawDate = $request->query->get('date');
+        $orders = array();
         switch ($type) {
             case 'participate':
                 $header = 'Мероприятия, в которых я участвую';
@@ -55,20 +58,56 @@ class OrderController extends Controller
                 $userOrders = $userOrderRep->findBy(
                     array('user' => $this->getUser())
                 );
-                $orders = array();
                 /** @var UserOrder $order */
-                foreach ($userOrders as $order) {
-                    $orders[] = $order->getOrder();
+                foreach ($userOrders as $userOrder) {
+                    $order = $userOrder->getOrder();
+                    if (!$rawDate) {
+                        $orders[] = $order;
+                    }
+                    if ($rawDate) {
+                        if ($order->getDateStart()
+                            && $order->getDateEnd()
+                            && $order->getDateStart()->format("Y-m-d") <= $rawDate
+                            && $order->getDateEnd()->format("Y-m-d") >= $rawDate
+                        ) {
+                            $orders[] = $order;
+                        }
+
+                    }
                 }
                 break;
             case 'created':
                 $header = 'Созданные мной мероприятия';
+                /** @var Order[] $orders */
                 $orders = $this->getUser()->getOrders();
+                if ($rawDate) {
+                    foreach ($orders as $key => $order) {
+                        if (!$order->getDateStart()
+                            || !$order->getDateEnd()
+                            || $order->getDateStart()->format("Y-m-d") > $rawDate
+                            || $order->getDateEnd()->format("Y-m-d") < $rawDate
+                        ) {
+                            unset($orders[$key]);
+                        }
+                    }
+                }
                 break;
             default:
                 $acceptable = true;
                 $orderRep = $this->getDoctrine()->getRepository(Order::class);
-                $orders = $orderRep->findAll();
+                if (!$rawDate) {
+                    $orders = $orderRep->findAll();
+                }
+                if ($rawDate) {
+                    $qb = $orderRep->createQueryBuilder('o');
+                    $ex1 = $qb->expr()->lte('TO_CHAR(o.dateStart,\'YYYY-MM-DD\')', ":rawdate");
+                    $ex2 = $qb->expr()->gte('TO_CHAR(o.dateEnd,\'YYYY-MM-DD\')', ":rawdate");
+                    $query = $qb->where($qb->expr()->andX($ex1, $ex2))
+                        ->setParameter('rawdate', $rawDate)
+                        ->orderBy('o.dateStart', 'DESC')
+                        ->getQuery();
+                    $orders = $query->getResult();
+                }
         }
         return $this->render('order/orders_list.html.twig', array(
             'orders' => $orders,
