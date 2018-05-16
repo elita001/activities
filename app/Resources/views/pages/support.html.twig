@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'common/header.html.twig' %}
+    <div class="content">
+        {{  form(form) }}
+    </div>
+    {% include 'common/footer.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+    {% include 'common/css.html.twig' %}
+{% endblock %}

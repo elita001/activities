@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Order;
+use AppBundle\Form\SupportType;
 use AppBundle\Repository\OrderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -34,5 +35,21 @@ class DefaultController extends Controller
     public function aboutAction()
     {
         return $this->render('pages/about.html.twig');
+    }
+
+    /**
+     * @Route("/support", name="support")
+     */
+    public function supportAction(Request $request)
+    {
+        $form = $this->createForm(SupportType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute('support');
+        }
+        return $this->render(
+            'pages/support.html.twig',
+            array('form' => $form->createView())
+        );
     }
 }
