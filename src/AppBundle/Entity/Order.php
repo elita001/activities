@@ -63,7 +63,7 @@ class Order
 
     /**
      * @Assert\DateTime()
-     * @ORM\Column(name="added_on", type="datetime", nullable=true)
+     * @ORM\Column(name="added_on", type="datetime", options={"default": 0})
      */
     private $addedOn;
     /**
@@ -188,6 +188,7 @@ class Order
     public function __construct()
     {
         $this->userOrders = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->addedOn = new \DateTime();
     }
 
     /**
