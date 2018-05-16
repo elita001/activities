@@ -18,13 +18,17 @@
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
     <li class="main-menu-item">
         <a href="{{ path('orders_list') }}">Мероприятия</a>
+        <div class="submenu">
+            <div><a href="{{ path('orders_list', { 'type': 'participate' }) }}">Пойду</a></div>
+            <div><a href="{{ path('orders_list', { 'type': 'created' }) }}">Созданные</a></div>
+        </div>
     </li>
-    <li class="main-menu-item">
-        <a href="{{ path('orders_list', { 'type': 'participate' }) }}">Пойду</a>
-    </li>
-    <li class="main-menu-item">
-        <a href="{{ path('orders_list', { 'type': 'created' }) }}">Созданные</a>
-    </li>
+    {#<li class="main-menu-item">#}
+        {#<a href="{{ path('orders_list', { 'type': 'participate' }) }}">Пойду</a>#}
+    {#</li>#}
+    {#<li class="main-menu-item">#}
+        {#<a href="{{ path('orders_list', { 'type': 'created' }) }}">Созданные</a>#}
+    {#</li>#}
     <li class="main-menu-item">
         <a href="{{ path('user') }}">Личный кабинет</a>
     </li>
