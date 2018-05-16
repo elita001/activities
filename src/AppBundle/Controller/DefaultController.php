@@ -45,14 +45,18 @@ class DefaultController extends Controller
         $form = $this->createForm(SupportType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $mailer = $this->get('mailer');
-            $message = \Swift_Message::newInstance()
-                ->setSubject('Support mail')
-                ->setFrom('san4o582@mail.ru')
-                ->setTo('san4o528@gmail.com')
-                ->setBody('Test text')
-            ;
-            $result = $mailer->send($message);
+            $formData = $form->getData();
+            $email = empty($formData['email']) ? '' : $formData['email'];
+            $text = empty($formData['content']) ? '' : $formData['content'];
+            if ($text && $email) {
+                $mailer = $this->get('mailer');
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Support mail: ' . $email)
+                    ->setFrom('san4o582@mail.ru')
+                    ->setTo('san4o528@gmail.com')
+                    ->setBody($text);
+                $mailer->send($message);
+            }
 
             return $this->redirectToRoute('support');
         }
