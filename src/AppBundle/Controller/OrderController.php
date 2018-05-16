@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Order;
 use AppBundle\Entity\UserOrder;
 use AppBundle\Form\OrderType;
+use AppBundle\Repository\OrderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,6 +51,9 @@ class OrderController extends Controller
         $header = 'Список мероприятий';
         $type = $request->query->get('type');
         $rawDate = $request->query->get('date');
+        if ($rawDate) {
+            $header .= sprintf(' (%s)', $rawDate);
+        }
         $orders = array();
         switch ($type) {
             case 'participate':
@@ -94,19 +98,13 @@ class OrderController extends Controller
                 break;
             default:
                 $acceptable = true;
+                /** @var OrderRepository $orderRep */
                 $orderRep = $this->getDoctrine()->getRepository(Order::class);
                 if (!$rawDate) {
                     $orders = $orderRep->findAll();
                 }
                 if ($rawDate) {
-                    $qb = $orderRep->createQueryBuilder('o');
-                    $ex1 = $qb->expr()->lte('TO_CHAR(o.dateStart,\'YYYY-MM-DD\')', ":rawdate");
-                    $ex2 = $qb->expr()->gte('TO_CHAR(o.dateEnd,\'YYYY-MM-DD\')', ":rawdate");
-                    $query = $qb->where($qb->expr()->andX($ex1, $ex2))
-                        ->setParameter('rawdate', $rawDate)
-                        ->orderBy('o.dateStart', 'DESC')
-                        ->getQuery();
-                    $orders = $query->getResult();
+                    $orders = $orderRep->findByDay($rawDate);
                 }
         }
         return $this->render('order/orders_list.html.twig', array(

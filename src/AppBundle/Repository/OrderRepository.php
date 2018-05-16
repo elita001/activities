@@ -10,4 +10,21 @@ namespace AppBundle\Repository;
  */
 class OrderRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param string $day Example: "2015-05-01"
+     * 
+     * @return array
+     */
+    public function findByDay($day) {
+        $qb = $this->createQueryBuilder('o');
+        $ex1 = $qb->expr()->lte('TO_CHAR(o.dateStart,\'YYYY-MM-DD\')', ":day");
+        $ex2 = $qb->expr()->gte('TO_CHAR(o.dateEnd,\'YYYY-MM-DD\')', ":day");
+        $query = $qb->where($qb->expr()->andX($ex1, $ex2))
+            ->setParameter('day', $day)
+            ->orderBy('o.dateStart', 'DESC')
+            ->getQuery();
+        $orders = $query->getResult();
+
+        return $orders;
+    }
 }

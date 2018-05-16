@@ -3,6 +3,25 @@
 {% block body %}
     {% include 'common/header.html.twig' %}
     <div class="content">Главная</div>
+    <div class="content">
+        {% for key, orders in ordersList %}
+            <h1 class="content-header"><a href="{{  path('orders_list', { 'date': key }) }}">{{ key }}</a></h1>
+            <hr>
+            {% for order in orders %}
+                <div>
+                    <strong>{{ order.name }}</strong>
+                </div>
+                <p>Описание: {{ order.content }}</p>
+                <p>Тел.: {{ order.phone }}</p>
+                <p>Начало: {{ order.dateStart is empty ? "" : order.dateStart|date("Y-m-d H:i:s") }}</p>
+                <p>Конец: {{ order.dateEnd is empty ? "" : order.dateEnd|date("Y-m-d H:i:s") }}</p>
+                <form action="{{  path('order_view', { 'id': order.id }) }}" method="post">
+                    <input type="submit" value="Подробнее">
+                </form>
+                <hr>
+            {% endfor %}
+        {% endfor %}
+    </div>
     {% include 'common/footer.html.twig' %}
 {% endblock %}
 
