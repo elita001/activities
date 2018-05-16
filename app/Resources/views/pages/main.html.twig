@@ -2,10 +2,11 @@
 
 {% block body %}
     {% include 'common/header.html.twig' %}
-    <div class="content">Главная</div>
     <div class="content">
         {% for key, orders in ordersList %}
-            <h1 class="content-header"><a href="{{  path('orders_list', { 'date': key }) }}">{{ key }}</a></h1>
+        <div class="date-block">
+            <div class="date-block-content">
+            <h2 class="content-header"><a href="{{  path('orders_list', { 'date': key }) }}">{{ key }}</a></h2>
             <hr>
             {% for order in orders %}
                 <div>
@@ -20,6 +21,8 @@
                 </form>
                 <hr>
             {% endfor %}
+            </div>
+        </div>
         {% endfor %}
     </div>
     {% include 'common/footer.html.twig' %}
