@@ -12,22 +12,30 @@ use Symfony\Component\HttpFoundation\Request;
 class OrderController extends Controller
 {
     /**
-     * @Route("/order", name="order_create")
+     * @Route("/order", name="order_save")
      */
     public function orderAction(Request $request)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
         }
+        $user = $this->getUser();
+        $order = null;
+        if ($id = $request->get('id')) {
+            $orderRep = $this->getDoctrine()->getRepository(Order::class);
+            $order = $orderRep->findOneBy(array('id' => $id, 'creator' => $user));
+        }
         // 1) build the form
-        $order = new Order();
+        if (!$order) {
+            $order = new Order();
+        }
         $form = $this->createForm(OrderType::class, $order);
 
         // 2) handle the submit (will only happen on POST)
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $order->setCreator($this->getUser());
+            $order->setCreator($user);
             // 4) save the Order!
             $em = $this->getDoctrine()->getManager();
             $em->persist($order);

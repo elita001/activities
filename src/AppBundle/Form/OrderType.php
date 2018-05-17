@@ -14,13 +14,18 @@ class OrderType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $submitText = 'Добавить мероприятие';
+        $order = $options['data'];
+        if ($order && $order instanceof Order && $order->getId() > 0) {
+            $submitText = 'Редактировать мероприятие';
+        }
         $builder
             ->add('name', null, array('label' => 'Название'))
             ->add('content', TextareaType::class, array('label' => 'Описание'))
             ->add('phone', IntegerType::class, array('label' => 'Телефон'))
             ->add('dateStart', DateTimeType::class, array('label' => 'Начинается', 'data' => new \DateTime('now')))
             ->add('dateEnd', DateTimeType::class, array('label' => 'Заканчивается', 'data' => new \DateTime('now')))
-            ->add('submit', SubmitType::class, array('label' => 'Добавить мероприятие!'))
+            ->add('submit', SubmitType::class, array('label' => $submitText))
         ;
     }
 
