@@ -13,6 +13,9 @@
                <th>Заканчивается</th>
                {% if acceptable %}<th></th>{% endif %}
                 <th></th>
+                {% if type == 'created' %}
+                <th></th>
+                {% endif %}
             </tr>
         {% for item in orders %}
             <tr>
@@ -33,6 +36,13 @@
                         <input type="submit" value="Подробнее">
                     </form>
                 </td>
+                {% if type == 'created' %}
+                <td>
+                    <form action="{{  path('order_save', { 'id': item.id }) }}" method="post">
+                        <input type="submit" value="Редактировать">
+                    </form>
+                </td>
+                {% endif %}
             </tr>
         {% endfor %}
         </table>

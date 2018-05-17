@@ -127,7 +127,8 @@ class OrderController extends Controller
         return $this->render('order/orders_list.html.twig', array(
             'orders' => $orders,
             'acceptable' => $acceptable,
-            'header' => $header
+            'header' => $header,
+            'type' => $type,
         ));
     }
 
