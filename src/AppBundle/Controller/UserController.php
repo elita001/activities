@@ -17,6 +17,9 @@ class UserController extends Controller
      */
     public function indexAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
         $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);

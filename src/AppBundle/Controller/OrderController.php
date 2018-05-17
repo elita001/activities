@@ -16,6 +16,9 @@ class OrderController extends Controller
      */
     public function orderAction(Request $request)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
         // 1) build the form
         $order = new Order();
         $form = $this->createForm(OrderType::class, $order);
@@ -57,6 +60,9 @@ class OrderController extends Controller
         $orders = array();
         switch ($type) {
             case 'participate':
+                if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    throw $this->createAccessDeniedException();
+                }
                 $header = 'Мероприятия, в которых я участвую';
                 $userOrderRep = $this->getDoctrine()->getRepository(UserOrder::class);
                 $userOrders = $userOrderRep->findBy(
@@ -81,6 +87,9 @@ class OrderController extends Controller
                 }
                 break;
             case 'created':
+                if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    throw $this->createAccessDeniedException();
+                }
                 $header = 'Созданные мной мероприятия';
                 /** @var Order[] $orders */
                 $orders = $this->getUser()->getOrders();
@@ -119,6 +128,9 @@ class OrderController extends Controller
      */
     public function orderParticipateAction($id)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
         $orderRep = $this->getDoctrine()->getRepository(Order::class);
         /** @var Order $order */
         $order = $orderRep->find($id);
