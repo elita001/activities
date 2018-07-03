@@ -7,6 +7,7 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    order_logo_directory: '%kernel.project_dir%/web/uploads/order/logos'
 
 framework:
     #esi: ~
@@ -80,3 +81,7 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+# VichUploader Configuration
+vich_uploader:
+    db_driver: orm
