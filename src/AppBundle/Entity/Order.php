@@ -63,7 +63,7 @@ class Order
 
     /**
      * @Assert\DateTime()
-     * @ORM\Column(name="added_on", type="datetime", options={"default": 0})
+     * @ORM\Column(name="added_on", type="datetime", nullable=true, options={"default": 0})
      */
     private $addedOn;
     /**
@@ -76,6 +76,13 @@ class Order
      * @ORM\Column(name="date_end", type="datetime", nullable=true)
      */
     private $dateEnd;
+
+    /**
+     * @Assert\File(mimeTypes={ "image/jpeg", "image/png", "image/gif" })
+     *
+     * @ORM\Column(name="logo", type="string", nullable=true)
+     */
+    private $logo;
 
     /**
      * Get id
@@ -288,4 +295,22 @@ class Order
     {
         return $this->addedOn;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param mixed $logo
+     */
+    public function setLogo($logo)
+    {
+        $this->logo = $logo;
+    }
+
+
 }
